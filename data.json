@@ -1,0 +1,24 @@
+{
+    "prosjekter": [
+        {
+            "tittel": "Prosjekt 1",
+            "beskrivelse": "Mitt første prosjekt",
+            "teknologier": [
+                "HTML",
+                "CSS",
+                "JavaScript"
+            ],
+            "bilde": "prosjekt.jpg"
+        },
+        {
+            "tittel": "Prosjekt 2",
+            "beskrivelse": "Mitt andre prosjekt",
+            "teknologier": [
+                "React",
+                "Node.js",
+                "JSX"
+            ],
+            "bilde": "prosjekt2.jpg"
+        }
+    ]
+}
