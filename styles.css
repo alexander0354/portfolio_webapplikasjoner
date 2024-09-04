@@ -1,0 +1,122 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+}
+
+.main-header {
+    font-size: 24px;
+    text-align: center;
+}
+
+/* Layout */
+main {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+/* Project list */
+.projects {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+    flex: 1;
+}
+
+.projects article {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.projects h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.projects p {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.projects img {
+    margin-top: 10px;
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+/* Simple and clean form styling */
+.add-project {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 300px; /* Begrenset bredde */
+    width: 100%; /* Sørger for at formen ikke strekker seg for langt */
+}
+
+.add-project form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.add-project form label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.add-project form input,
+.add-project form textarea,
+.add-project form select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.add-project form input:focus,
+.add-project form textarea:focus,
+.add-project form select:focus {
+    border-color: #007bff; /* Blå farge på fokus */
+}
+
+.add-project form textarea {
+    resize: vertical; /* Tillater vertikal resizing */
+}
+
+.add-project form button {
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.add-project form button:hover {
+    background-color: #218838;
+}

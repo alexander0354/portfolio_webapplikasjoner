@@ -8,7 +8,9 @@
                 "CSS",
                 "JavaScript"
             ],
-            "bilde": "prosjekt.jpg"
+            "bilde": "prosjekt.jpg",
+            "repoLink": "https://github.com/user/prosjekt1",
+            "status": "In Progress"
         },
         {
             "tittel": "Prosjekt 2",
@@ -18,7 +20,9 @@
                 "Node.js",
                 "JSX"
             ],
-            "bilde": "prosjekt2.jpg"
+            "bilde": "prosjekt2.jpg",
+            "repoLink": "https://github.com/user/prosjekt2",
+            "status": "Completed"
         }
     ]
 }

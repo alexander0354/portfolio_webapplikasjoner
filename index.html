@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="menu-button"></div>
+        <h1 class="main-header">Mine prosjekter</h1>
+        <div class="hamburger-menu"></div>
+    </header>
+
+    <main>
+        <section class="projects">
+            <!-- Projects loaded from server will be dynamically added here -->
+        </section>
+
+        <aside class="add-project">
+            <form id="project-form">
+                <fieldset>
+                    <legend>Legg til nytt prosjekt</legend>
+                    <label for="title">Tittel:</label>
+                    <input type="text" id="title" name="title" required>
+
+                    <label for="description">Beskrivelse:</label>
+                    <textarea id="description" name="description" required></textarea>
+
+                    <label for="technologies">Teknologier brukt:</label>
+                    <input type="text" id="technologies" name="technologies" required>
+
+                    <label for="repo-link">Repo Link:</label>
+                    <input type="url" id="repo-link" name="repo-link" required>
+
+                    <label for="status">Status:</label>
+                    <select id="status" name="status">
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+
+                    <button type="submit">Legg til prosjekt</button>
+                </fieldset>
+            </form>
+        </aside>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
