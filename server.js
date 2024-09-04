@@ -29,7 +29,6 @@ app.get("/json", async (c) => {
 // Legge til et nytt prosjekt
 app.post("/add", async (c) => {
     const newProject = await c.req.json();
-    newProject.id = crypto.randomUUID(); // Legg til en unik ID til prosjektet
     projects.push(newProject); // Legg til prosjektet i minne-listen
     return c.json(projects, { status: 201 });
 });
