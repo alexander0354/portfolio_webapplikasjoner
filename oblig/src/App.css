@@ -1,0 +1,167 @@
+/* Global styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: #333;
+  color: #fff;
+}
+
+.main-header {
+  font-size: 24px;
+  text-align: center;
+}
+
+.contact-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contact-button:hover {
+  background-color: #45a049;
+}
+
+/* Layout */
+main {
+  padding: 20px;
+}
+
+.content-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.experiences-container {
+  width: 68%;
+}
+
+.projects-container {
+  width: 68%;
+}
+
+/* Create project styling */
+.create-project-container {
+  width: 28%;
+  margin-left: auto; /* Flytter det til høyre */
+}
+
+.contact-section {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+/* Experience list styling */
+.experiences .experience-item {
+  background-color: #f2f2f2;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+/* Project list */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+}
+
+.projects article {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.projects h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.projects p {
+  font-size: 14px;
+  color: #555;
+  margin: 5px 0;
+}
+
+.projects img {
+  margin-top: 10px;
+  max-width: 100%;
+  border-radius: 5px;
+}
+
+/* Form styling */
+.add-project {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 300px;
+  width: 100%;
+}
+
+.add-project form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.add-project form label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.add-project form input,
+.add-project form textarea,
+.add-project form select {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.add-project form input:focus,
+.add-project form textarea:focus,
+.add-project form select:focus {
+  border-color: #007bff;
+}
+
+.add-project form textarea {
+  resize: vertical;
+}
+
+.add-project form button {
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.add-project form button:hover {
+  background-color: #218838;
+}
