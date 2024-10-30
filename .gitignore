@@ -1,0 +1,5 @@
+node_modules/
+*.lock
+*.exe
+backend/node_modules/
+oblig/node_modules/
