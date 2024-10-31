@@ -90,11 +90,20 @@ main {
   border-radius: 8px;
 }
 
+.project-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
 .projects {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 20px;
 }
+
 
 .projects article {
   border: 1px solid #ccc;
@@ -179,6 +188,23 @@ main {
 
 .add-project form button:hover {
   background-color: #218838;
+}
+
+.demos-section {
+  margin-top: 10px;
+}
+
+.demos-section h5 {
+  margin-bottom: 5px;
+}
+
+.demos-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.demos-section ul li {
+  margin-bottom: 5px;
 }
 
 /*

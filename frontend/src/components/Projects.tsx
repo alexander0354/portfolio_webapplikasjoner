@@ -1,23 +1,35 @@
+// Projects.tsx
 import React, { useEffect, useState } from "react";
+import { formatDate } from '../utils/dataUtils';
+
+type Demo = {
+  title: string;
+  url: string;
+};
 
 type Project = {
   id: number;
   title: string;
   description: string;
   createdAt: string;
+  status: string;
+  publishedAt: string | null;
+  tags: string[];
+  public: boolean;
+  externalLink: string | null;
+  demos: Demo[];
 };
 
-// Enkel Project-komponent som viser tittel og beskrivelse, fleksibel med children
 export function Project({ children }: { children: React.ReactNode }) {
   const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
-    // Hent data fra serveren
     fetch('http://localhost:3000/projects')
       .then((response) => response.json())
       .then((data) => setProjects(data))
-      .catch((error) => console.error('Error fetching projects:', error));
-  }, []); // Kjør en gang ved mount
+      .catch((error) => console.error('Error i fetch av prosjekter:', error));
+  }, []);
+  
   return <div>{children}</div>;
 }
 
@@ -29,11 +41,41 @@ export function Projects({ projects }: { projects: Project[] }) {
         <p>Ingen prosjekter enda!</p>
       ) : (
         projects.map((project, index) => (
-          <Project key={index}>
+          <div key={index} className="project-item">
             <h4>{project.title}</h4>
             <p>{project.description}</p>
-            <small>Opprettet: {project.createdAt}</small>
-          </Project>
+            <small>Opprettet: {formatDate(project.createdAt)}</small>
+            {project.status === 'published' && project.publishedAt && (
+              <small>Publisert: {formatDate(project.publishedAt)}</small>
+            )}
+            <p>Status: {project.status}</p>
+            <p>Tags: {project.tags.join(', ')}</p>
+            {project.public ? (
+              <p>Prosjektet er offentlig</p>
+            ) : (
+              <p>Prosjektet er privat</p>
+            )}
+            {project.externalLink && (
+              <a href={project.externalLink} target="_blank" rel="noopener noreferrer">
+                Ekstern link
+              </a>
+            )}
+            {/* Liste over demoer */}
+            {project.demos.length > 0 && (
+              <div className="demos-section">
+                <h5>Demoer</h5>
+                <ul>
+                  {project.demos.map((demo, demoIndex) => (
+                    <li key={demoIndex}>
+                      <a href={demo.url} target="_blank" rel="noopener noreferrer">
+                        {demo.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         ))
       )}
     </div>
