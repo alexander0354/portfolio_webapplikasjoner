@@ -1,4 +1,15 @@
 /* Global styles */
+:root {
+  --primary-color: #4CAF50;
+  --secondary-color: #333;
+  --background-color: #f5f5f5;
+  --text-color: #333;
+  --padding: 20px;
+  --border-radius: 8px;
+  --font-size-header: 24px;
+}
+
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -9,18 +20,26 @@ body {
 header {
   display: flex;
   justify-content: center;
-  padding: 20px;
+  padding: var(--padding);
   background-color: #333;
-  color: #fff;
+  color: var(--background-color);
+  transition: background-color 0.6s ease, color 0.6s ease, border-bottom 1s ease;
 }
 
+header:hover {
+  background-color: var(--background-color);
+  color: #333;
+  border-bottom: 3px solid var(--primary-color);
+}
+
+
 .main-header {
-  font-size: 24px;
+  font-size: var(--font-size-header);
   text-align: center;
 }
 
 .contact-button {
-  background-color: #4CAF50;
+  background-color: var(--primary-color);
   color: white;
   padding: 10px 20px;
   border: none;
@@ -30,12 +49,12 @@ header {
 }
 
 .contact-button:hover {
-  background-color: #45a049;
+  background-color: var(--primary-color);
 }
 
 /* Layout */
 main {
-  padding: 20px;
+  padding: var(--padding);
 }
 
 .content-wrapper {
@@ -51,7 +70,6 @@ main {
   width: 68%;
 }
 
-/* Create project styling */
 .create-project-container {
   width: 28%;
   margin-left: auto; /* Flytter det til høyre */
@@ -60,20 +78,18 @@ main {
 .contact-section {
   margin-top: 40px;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--background-color);
   border-radius: 8px;
   border: 1px solid #ddd;
 }
 
-/* Experience list styling */
 .experiences .experience-item {
-  background-color: #f2f2f2;
+  background-color: var(--background-color);
   padding: 15px;
   margin-bottom: 10px;
   border-radius: 8px;
 }
 
-/* Project list */
 .projects {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -106,10 +122,9 @@ main {
   border-radius: 5px;
 }
 
-/* Form styling */
 .add-project {
-  background-color: #f9f9f9;
-  padding: 20px;
+  background-color: var(--background-color);
+  padding: var(--padding);
   border: 1px solid #ddd;
   border-radius: 8px;
   max-width: 300px;
@@ -165,3 +180,12 @@ main {
 .add-project form button:hover {
   background-color: #218838;
 }
+
+/*
+Refleksjon rundt komponentene:
+Jeg kunne splittet opp prosjekt komponentet i mindre deler, 
+hvor f.eks. en del kan innebære liste av prosjketer og en til som håndterer detaljer av hvert prosjekt.
+Jeg kan også lage custom hook for å håndtere fetching og henting av prosjekter 
+- Noe som vil gjøre logikken og komponenten isolert og lettere å vedlikeholde
+- Hadde gjort koden mer organisert og gjenbrukbar. lettere å teste også 
+*/
