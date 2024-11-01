@@ -1,29 +1,16 @@
 import { useState, useEffect } from 'react';
 import { fetchProjects, createProject } from '../services/apiService';
 
-type ProjectData = {
-    id: number;
-    title: string;
-    description: string;
-    createdAt: string;
-    status: 'draft' | 'published';
-    publishedAt: string | null;
-    tags: string[];
-    public: boolean;
-    externalLink: string | null;
-  };
-
 function useProjects() {
     const [projects, setProjects] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-
     useEffect(() => {
         const loadProjects = async () => {
             try {
                 const data = await fetchProjects();
-                setProjects(data);
+                setProjects(data); // Sett prosjekter fra backend
             } catch (err) {
                 if (err instanceof Error) {
                     setError(err.message);
@@ -41,7 +28,7 @@ function useProjects() {
     const addProject = async (newProject: any) => {
         try {
             const savedProject = await createProject(newProject);
-            setProjects([...projects, savedProject]);
+            setProjects([...projects, savedProject.project]); // Legg til det nye prosjektet
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);

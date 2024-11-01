@@ -1,5 +1,3 @@
-// Projects.tsx
-import React, { useEffect, useState } from "react";
 import { formatDate } from '../utils/dataUtils';
 
 type Demo = {
@@ -17,66 +15,55 @@ type Project = {
   tags: string[];
   public: boolean;
   externalLink: string | null;
-  demos: Demo[];
+  demos?: Demo[];
 };
 
-export function Project({ children }: { children: React.ReactNode }) {
-  const [projects, setProjects] = useState<Project[]>([]);
-
-  useEffect(() => {
-    fetch('http://localhost:3000/projects')
-      .then((response) => response.json())
-      .then((data) => setProjects(data))
-      .catch((error) => console.error('Error i fetch av prosjekter:', error));
-  }, []);
-  
-  return <div>{children}</div>;
+export function ProjectItem({ project }: { project: Project }) {
+  return (
+    <div className="project-item">
+      <h4>{project.title}</h4>
+      <p>{project.description}</p>
+      <small>Opprettet: {formatDate(project.createdAt)}</small>
+      {project.status === 'published' && project.publishedAt && (
+        <small>Publisert: {formatDate(project.publishedAt)}</small>
+      )}
+      <p>Status: {project.status}</p>
+      <p>Tags: {project.tags.join(', ')}</p>
+      {project.public ? (
+        <p>Prosjektet er offentlig</p>
+      ) : (
+        <p>Prosjektet er privat</p>
+      )}
+      {project.externalLink && (
+        <a href={project.externalLink} target="_blank" rel="noopener noreferrer">
+          Ekstern link
+        </a>
+      )}
+      {project.demos && project.demos.length > 0 && (
+        <div className="demos-section">
+          <h5>Demoer</h5>
+          <ul>
+            {project.demos.map((demo, demoIndex) => (
+              <li key={demoIndex}>
+                <a href={demo.url} target="_blank" rel="noopener noreferrer">
+                  {demo.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
 }
 
-// Projects-komponenten som bruker .map() for å liste prosjekter dynamisk
-export function Projects({ projects }: { projects: Project[] }) {
+export function Projects({ projects = [] }: { projects: Project[] }) {
   return (
     <div>
       {projects.length === 0 ? (
         <p>Ingen prosjekter enda!</p>
       ) : (
-        projects.map((project, index) => (
-          <div key={index} className="project-item">
-            <h4>{project.title}</h4>
-            <p>{project.description}</p>
-            <small>Opprettet: {formatDate(project.createdAt)}</small>
-            {project.status === 'published' && project.publishedAt && (
-              <small>Publisert: {formatDate(project.publishedAt)}</small>
-            )}
-            <p>Status: {project.status}</p>
-            <p>Tags: {project.tags.join(', ')}</p>
-            {project.public ? (
-              <p>Prosjektet er offentlig</p>
-            ) : (
-              <p>Prosjektet er privat</p>
-            )}
-            {project.externalLink && (
-              <a href={project.externalLink} target="_blank" rel="noopener noreferrer">
-                Ekstern link
-              </a>
-            )}
-            {/* Liste over demoer */}
-            {project.demos.length > 0 && (
-              <div className="demos-section">
-                <h5>Demoer</h5>
-                <ul>
-                  {project.demos.map((demo, demoIndex) => (
-                    <li key={demoIndex}>
-                      <a href={demo.url} target="_blank" rel="noopener noreferrer">
-                        {demo.title}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        ))
+        projects.map((project) => <ProjectItem key={project.id} project={project} />)
       )}
     </div>
   );

@@ -1,13 +1,16 @@
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
+import { PrismaClient } from '@prisma/client';
 import type { Context, Next } from 'hono';
 
 const app = new Hono();
+const prisma = new PrismaClient();
 
 app.use(cors());
 
-const projects = [
+// Hardkodede prosjekter som fallback
+const fallbackProjects = [
   {
     id: 1,
     title: 'Portefølje prosjekt',
@@ -45,18 +48,36 @@ const projects = [
   }
 ];
 
+// Funksjon for å hente prosjekter fra databasen og inkludere fallbackProsjekter
+const getProjects = async () => {
+  const dbProjects = await prisma.project.findMany();
+  const allProjects = [...dbProjects.map(transformProject), ...fallbackProjects];
+  return allProjects;
+};
+
+// Funksjon for å konvertere tags fra en kommaseparert streng til en array
+const transformProject = (project: any) => {
+  return {
+    ...project,
+    tags: project.tags ? project.tags.split(',') : [], // Konverter tags til array
+  };
+};
+
 // Middleware for å filtrere prosjekter basert på brukerens rolle
 const roleBasedAccessMiddleware = async (c: Context, next: Next) => {
   const userRole = c.req.header('Cookie')?.split('; ').find(row => row.startsWith('user.role='))?.split('=')[1];
   console.log('User role from cookie:', userRole); // Feilsøkingslogg
 
+  // Hent prosjekter fra databasen eller bruk fallback
+  const allProjects = await getProjects();
+
   if (userRole !== 'admin') {
-    const publicProjects = projects.filter((project) => project.public);
-    console.log('Filtered projects for non-admin:', publicProjects); // Logg for ikke-admin brukere
+    // Filtrer kun offentlige prosjekter for ikke-admin brukere
+    const publicProjects = allProjects.filter((project) => project.public);
     c.set('filteredProjects', publicProjects);
   } else {
-    console.log('Admin access, all projects:', projects); // Logg for admin tilgang
-    c.set('filteredProjects', projects);
+    // Gi admin tilgang til alle prosjekter
+    c.set('filteredProjects', allProjects);
   }
 
   await next();
@@ -70,10 +91,70 @@ app.get('/projects', (c: Context) => {
   return c.json(filteredProjects);
 });
 
+// Endepunkt for å opprette et nytt prosjekt
 app.post('/projects', async (c: Context) => {
-  const newProject = await c.req.json();
-  projects.push(newProject);
-  return c.json({ message: 'Project added successfully', project: newProject });
+  const data = await c.req.json();
+
+  // Lagre prosjektet i databasen med tags som en kommaseparert streng
+  const newProject = await prisma.project.create({
+    data: {
+      title: data.title,
+      description: data.description,
+      createdAt: new Date(),
+      status: data.status || 'draft',
+      publishedAt: data.publishedAt ? new Date(data.publishedAt) : null,
+      tags: data.tags.join(','), // Konverter array til kommaseparert streng
+      public: data.public || false,
+      externalLink: data.externalLink || null,
+    },
+  });
+
+  return c.json({ message: 'Project added successfully', project: transformProject(newProject) });
+});
+
+// Endepunkt for å hente et spesifikt prosjekt
+app.get('/projects/:id', async (c: Context) => {
+  const projectId = parseInt(c.req.param('id'), 10);
+  const project = await prisma.project.findUnique({
+    where: { id: projectId }
+  });
+
+  if (project) {
+    return c.json(transformProject(project));
+  } else {
+    return c.json({ error: 'Project not found' }, 404);
+  }
+});
+
+// Endepunkt for å oppdatere et prosjekt
+app.put('/projects/:id', async (c: Context) => {
+  const projectId = parseInt(c.req.param('id'), 10);
+  const data = await c.req.json();
+
+  const updatedProject = await prisma.project.update({
+    where: { id: projectId },
+    data: {
+      title: data.title,
+      description: data.description,
+      status: data.status,
+      publishedAt: data.publishedAt ? new Date(data.publishedAt) : null,
+      tags: data.tags.join(','), // Konverter array til kommaseparert streng
+      public: data.public,
+      externalLink: data.externalLink,
+    },
+  });
+
+  return c.json({ message: 'Project updated successfully', project: transformProject(updatedProject) });
+});
+
+// Endepunkt for å slette et prosjekt
+app.delete('/projects/:id', async (c: Context) => {
+  const projectId = parseInt(c.req.param('id'), 10);
+  await prisma.project.delete({
+    where: { id: projectId },
+  });
+
+  return c.json({ message: 'Project deleted successfully' });
 });
 
 const port = 3000;
